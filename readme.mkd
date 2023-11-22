@@ -28,7 +28,7 @@ This Python script facilitates the automatic creation of Word documents (.docx) 
    - Run the script. The generated documents will be stored in a folder called `generated-documents`.
 
    ```bash
-   python your_script.py
+   python generate.py
    ```
 
 ## Requirements
