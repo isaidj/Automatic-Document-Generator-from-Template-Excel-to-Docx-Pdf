@@ -6,11 +6,11 @@ This Python script facilitates the automatic creation of Word documents (.docx) 
 
 1. **Document Template:**
    - Create a Word document with placeholder markers that match the column names in your Excel file. For example: `[name]`, `[id]`.
-  ![Naming Convention](images/screenShot.png)
+   - ![Naming Convention](images/screenShot.png)
 
 2. **Excel File:**
    - Prepare an Excel file with data. Ensure that the columns have the same names as the markers in the template.
-  ![Excel File](images/screenShot2.png)
+   - ![Excel File](images/screenShot2.png)
 
 3. **Script Configuration:**
    - In the script, define the field mapping by indicating the template markers and their corresponding column names in Excel.
