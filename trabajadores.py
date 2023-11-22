@@ -3,63 +3,86 @@ from docx import Document
 import os
 
 
-def reemplazar_campos(doc, campos):
+def replace_fields(doc, row, field_mapping):
     """
-    Reemplaza los campos especificados en el documento.
+    Replaces the specified fields in the document.
 
     Parameters:
-        - doc: Documento de python-docx.
-        - campos: Diccionario donde las claves son los campos a reemplazar y los valores son los nuevos textos.
+        - doc: python-docx Document.
+        - row: Pandas DataFrame row containing the data.
+        - field_mapping: Dictionary where keys are the placeholders in the document
+          and values are the corresponding column names in the Excel file.
     """
-    for parrafo in doc.paragraphs:
-        for campo, nuevo_texto in campos.items():
-            for run in parrafo.runs:
-                run.text = run.text.replace(campo, nuevo_texto)
+    for paragraph in doc.paragraphs:
+        for field, col_name in field_mapping.items():
+            for run in paragraph.runs:
+                run.text = run.text.replace(field, str(row[col_name]))
 
 
-def generar_documentos(ruta_excel, ruta_documento_word, carpeta_destino):
-    # Crear la carpeta de destino si no existe
-    if not os.path.exists(carpeta_destino):
-        os.makedirs(carpeta_destino)
+def generate_document_for_row(
+    row, template_doc, destination_folder, field_mapping, column_like_doc_name
+):
+    """
+    Generates a document for a specific row in the Excel file.
 
-    # Obtener los valores de los campos desde el archivo Excel
-    archivo_excel = pd.rea(ruta_excel, sheet_name="Sheet")
-    columnas = ["NOMBRE", "CEDULA", "FECHA"]
+    Parameters:
+        - row: Pandas DataFrame row containing the data.
+        - template_doc: Path to the template document.
+        - destination_folder: Folder where the generated documents will be saved.
+        - field_mapping: Dictionary where keys are the placeholders in the document
+          and values are the corresponding column names in the Excel file.
+    """
+    # Create a new document or load an existing one
+    doc = Document(template_doc)
 
-    for index, fila in archivo_excel.iterrows():
-        # Crear un diccionario con los nombres de los campos y sus valores
-        campos_a_reemplazar = {
-            "[nombre]": fila["NOMBRE"],
-            "[cedula]": str(
-                fila["CEDULA"]
-            ),  # Asegurarse de que la cédula sea un string
-            "[fecha]": str(fila["FECHA"]),  # Asegurarse de que la fecha sea un string
-        }
+    # Call the function to replace the fields
+    replace_fields(doc, row, field_mapping)
 
-        # Crear un nuevo documento o cargar uno existente
-        doc = Document(ruta_documento_word)
+    # Save the document with replaced fields
+    document_name = str(row[field_mapping[column_like_doc_name]]).replace(" ", "_")
+    new_document_path = os.path.join(destination_folder, f"{document_name}.docx")
+    doc.save(new_document_path)
 
-        # Llamar a la función para reemplazar los campos
-        reemplazar_campos(doc, campos_a_reemplazar)
-
-        # Guardar el documento con los campos reemplazados
-        nombre_persona = campos_a_reemplazar["[nombre]"].replace(
-            " ", "_"
-        )  # Reemplazar espacios en blanco con guiones bajos
-        ruta_nuevo_documento = os.path.join(carpeta_destino, f"{nombre_persona}.docx")
-        doc.save(ruta_nuevo_documento)
-
-        print(
-            f"Documento generado para {nombre_persona}. Puedes encontrar el archivo en: {ruta_nuevo_documento}"
-        )
+    print(f"Document generated for {document_name}. File saved at: {new_document_path}")
 
 
-# Ejemplo de uso
-ruta_excel_ejemplo = os.path.join(os.getcwd(), "base-de-datos-trabajadores.xlsx")
-ruta_documento_word_ejemplo = os.path.join(
-    os.getcwd(), "FORMATO-SUSTITUCIÓN PATRONAL  SYVER SAS ORIOL INTENACIONAL SAS.docx"
-)
-carpeta_destino_ejemplo = os.path.join(os.getcwd(), "documentos-generados")
-generar_documentos(
-    ruta_excel_ejemplo, ruta_documento_word_ejemplo, carpeta_destino_ejemplo
-)
+if __name__ == "__main__":
+    # Example of usage
+    example_excel_path = os.path.join(os.getcwd(), "example_table.xlsx")
+    example_template_doc_path = os.path.join(os.getcwd(), "example_doc.docx")
+    example_destination_folder = os.path.join(os.getcwd(), "generated-documents")
+
+    # Define the field mapping (placeholder in document: corresponding column name in Excel)
+    example_field_mapping = {
+        "[nombre]": "NOMBRE",
+        "[cedula]": "CEDULA",
+        "[fecha]": "FECHA",
+    }
+    # Define the column name that will be used to name the generated documents
+    example_column_like_doc_name = "[nombre]"
+
+    # Verify the existence of files and folders
+    if not os.path.exists(example_excel_path) or not os.path.exists(
+        example_template_doc_path
+    ):
+        print("Error: Excel file or template document not found.")
+    else:
+        # Get data from the Excel file
+        try:
+            excel_data = pd.read_excel(example_excel_path, sheet_name="Sheet")
+        except Exception as e:
+            print(f"Error loading Excel file: {e}")
+        else:
+            # Create the destination folder if it doesn't exist
+            if not os.path.exists(example_destination_folder):
+                os.makedirs(example_destination_folder)
+
+            for _, row in excel_data.iterrows():
+                # Generate document for each row in the Excel file
+                generate_document_for_row(
+                    row,
+                    example_template_doc_path,
+                    example_destination_folder,
+                    example_field_mapping,
+                    example_column_like_doc_name,
+                )
