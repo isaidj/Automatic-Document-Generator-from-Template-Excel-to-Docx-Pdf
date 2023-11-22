@@ -54,6 +54,7 @@ if __name__ == "__main__":
 
     # Define the field mapping (placeholder in document: corresponding column name in Excel)
     example_field_mapping = {
+        # --Marker--:--Excel Column----#
         "[nombre]": "NOMBRE",
         "[cedula]": "CEDULA",
         "[fecha]": "FECHA",
