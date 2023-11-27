@@ -1,0 +1,11 @@
+# Archivos generados por Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Directorios de construcción
+build/
+dist/
+__pycache__/
+*.egg-info/
