@@ -19,6 +19,7 @@ class DocumentGeneratorUI:
         self.column_combobox = None
         self.concatenation_label = None
         self.main_frame = None
+        self.is_pdf = tk.BooleanVar()
 
         self.create_widgets()
 
@@ -88,10 +89,25 @@ class DocumentGeneratorUI:
             self.main_frame, text="", fg="white", bg="#2E3B4E"
         )
         self.concatenation_label.grid(row=5, column=0, columnspan=4, pady=5)
+        # checkbox pdf?
 
         tk.Button(
-            self.main_frame, text="Generate Documents", command=self.generate_documents
+            self.main_frame,
+            text="Generate  (DOCX) documents",
+            bg="#1a53ff",
+            command=self.generate_documents,
+            font=("Arial", 10),
+            foreground="white",
         ).grid(row=6, column=0, columnspan=4, pady=10)
+
+        tk.Button(
+            self.main_frame,
+            text="Generate  (PDF) documents",
+            bg="#eb2832",
+            font=("Arial", 9),
+            foreground="white",
+            command=lambda: self.generate_documents(pdf=True),
+        ).grid(row=7, column=0, columnspan=4, pady=10)
 
         self.file_name_var.trace_add("write", self.update_combobox_and_label)
         self.column_combobox.bind_all(
@@ -125,7 +141,7 @@ class DocumentGeneratorUI:
         if folder_path:
             self.destination_folder_var.set(folder_path)
 
-    def generate_documents(self):
+    def generate_documents(self, pdf=False):
         excel_path = self.excel_path_var.get()
         template_doc_path = self.template_doc_path_var.get()
         destination_folder = self.destination_folder_var.get()
@@ -168,6 +184,7 @@ class DocumentGeneratorUI:
                 field_mapping,
                 column_like_doc_name,
                 file_name,
+                pdf=pdf,
             )
 
         self.update_combobox_value()

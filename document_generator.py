@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 from docx import Document
+from docx2pdf import convert
 
 
 class DocumentGenerator:
@@ -21,12 +22,22 @@ class DocumentGenerator:
         field_mapping,
         column_like_doc_name,
         file_name,
+        pdf=False,
     ):
         doc = Document(template_doc)
         self.replace_fields(doc, row, field_mapping)
         document_name = f"{file_name}_{str(row[field_mapping[column_like_doc_name]]).replace(' ', '_')}"
-        new_document_path = os.path.join(destination_folder, f"{document_name}.docx")
-        doc.save(new_document_path)
-        print(
-            f"Document generated for {document_name}. File saved at: {new_document_path}"
-        )
+        if pdf:
+            # Convertir el documento a PDF
+            pdf_path = os.path.join(destination_folder, f"{document_name}.pdf")
+            doc.save(pdf_path)
+            print(f"Document generated for {document_name}. File saved at: {pdf_path}")
+        else:
+            # Guardar el documento
+            new_document_path = os.path.join(
+                destination_folder, f"{document_name}.docx"
+            )
+            doc.save(new_document_path)
+            print(
+                f"Document generated for {document_name}. File saved at: {new_document_path}"
+            )
