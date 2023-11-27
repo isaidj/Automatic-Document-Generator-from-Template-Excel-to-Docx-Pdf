@@ -3,38 +3,35 @@
 
 This Python script facilitates the automatic creation of Word documents (.docx) from a predefined template. The template should contain placeholder markers, such as `[name]`, `[id]`, which will be replaced with specific values.
 
-## Operation
+## How to use
 
 1. **Document Template:**
    - Create a Word document with placeholder markers that match the column names in your Excel file. For example: `[name]`, `[id]`.
-   - ![Naming Convention](images/screenShot.png)
+    ![Naming Convention](images/screenShot.png)
 
 2. **Excel File:**
    - Prepare an Excel file with data. Ensure that the columns have the same names as the markers in the template.
-   - ![Excel File](images/screenShot2.png)
+    ![Excel File](images/screenShot2.png)
 
-3. **Script Configuration:**
-   - In the script, define the field mapping by indicating the template markers and their corresponding column names in Excel.
-   - Note that the dictionary keys must match the template markers, and the values must match the column names in Excel.
+3. **Open .exe file:**
+   - Open the .exe file and follow the instructions.
+    ![Excel File](images/screenShot3.png)
 
-   ```python
-   # Define the field mapping (marker in the document: column name in Excel)
-   field_mapping = {
-    #--Marker--:--Excel Column----#
-       "[name]": "NAME",
-       "[id]": "ID",
-       "[date]": "DATE",
-   }
-   ```
+4. **Fill in the fields:**
+   - Fill in the fields with the path of the doc template and the Excel file.
+   - *File name* is optional, it will be the prefix of the documents.
+   - *Select the column*: Select the column that will be used to name the documents.
+   - File name and select the column will be concatenated to name the documents.
+    ![Excel File](images/screenShot4.png)
+5. **Done:**
+   - Automatically the script will create the documents with the data of the Excel file.
+   ![Excel File](images/screenShot5.png)
+6. **Docx result:**
+   ![Excel File](images/screenShot6.png)
+  
+## If you want to run the script directly
 
-4. **Script Execution:**
-   - Run the script. The generated documents will be stored in a folder called `generated-documents`.
-
-   ```bash
-   python generate.py
-   ```
-
-## Requirements
+### Requirements
 
 Make sure you have the necessary libraries installed:
 

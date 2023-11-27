@@ -20,4 +20,5 @@ setup(
         }
     },
     executables=[target],
+    target_name="ExcelToDocxTemplate.exe",
 )
