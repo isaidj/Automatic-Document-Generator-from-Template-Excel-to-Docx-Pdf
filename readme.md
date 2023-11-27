@@ -1,4 +1,5 @@
-# Automatic Document Generator from Template
+
+# <img src="icon.ico" alt="drawing" width="30"/> Automatic Document Generator from Template
 
 This Python script facilitates the automatic creation of Word documents (.docx) from a predefined template. The template should contain placeholder markers, such as `[name]`, `[id]`, which will be replaced with specific values.
 
