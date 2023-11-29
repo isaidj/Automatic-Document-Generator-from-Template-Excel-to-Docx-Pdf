@@ -1,7 +1,7 @@
 
 # <img src="icon.ico" alt="drawing" width="30"/> Automatic Document Generator from Template
 
-<img src="images/screenShot4.png" alt="drawing" width="500"/>
+<img src="images/preview.png" alt="drawing" width="500"/>
 
 This application is useful for creating certificates, diplomas, or any other type of document that requires a **large number of documents** with the same format but **different data**.
 
@@ -21,14 +21,17 @@ Facilitates  automatic creation of Word documents (.docx) from a predefined temp
 
 3. **Open .exe file:**
    - Open the .exe file and follow the instructions.
-    ![Excel File](images/screenShot3.png)
+   ![Excel File](images/screenShot3.png)
 
-4. **Fill in the fields:**
+4. **Fields:**
    - Fill in the fields with the path of the doc template and the Excel file.
    - *File name* is optional, it will be the prefix of the documents.
    - *Select the column*: Select the column that will be used to name the documents.
    - File name and select the column will be concatenated to name the documents.
-    ![Excel File](images/screenShot4.png)
+    ![Excel File](images/preview_completed.png)
+   - You can generate PDF files by checking the -**PDF?**- box too.
+  ![Excel File](images/pdf.png)
+
 5. **Done:**
    - Automatically the script will create the documents with the data of the Excel file.
    ![Excel File](images/screenShot5.png)
@@ -43,6 +46,22 @@ Make sure you have the necessary libraries installed:
 
 ```bash
 pip install pandas python-docx
+```
+
+### Run
+
+```bash
+python main.py
+```
+
+### Generate .exe file
+
+```bash
+pip install cx_Freeze
+```
+
+```bash
+python setup.py build
 ```
 
 ## Credits
