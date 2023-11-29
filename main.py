@@ -1,9 +1,9 @@
 import tkinter as tk
 from document_generator import DocumentGenerator
-from ui import DocumentGeneratorUI
+
+# from ui import DocumentGeneratorUI
+from new_ui import App
 
 if __name__ == "__main__":
-    root = tk.Tk()
     generator = DocumentGenerator()
-    app = DocumentGeneratorUI(root, generator)
-    root.mainloop()
+    app = App(generator)
