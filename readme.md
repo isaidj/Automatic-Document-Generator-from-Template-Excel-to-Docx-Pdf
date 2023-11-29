@@ -5,7 +5,7 @@
 
 This application is useful for creating certificates, diplomas, or any other type of document that requires a **large number of documents** with the same format but **different data**.
 
-Facilitates  automatic creation of Word documents (.docx) from a predefined template. The template should contain placeholder markers, such as `[name]`, `[id]`, which will be replaced with specific values.
+Facilitates  automatic creation of Word documents (.docx) or PDF from a predefined template. The template should contain placeholder markers, such as `[name]`, `[id]`, which will be replaced with specific values.
 
 ## How to use
 
