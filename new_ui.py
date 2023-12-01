@@ -32,6 +32,7 @@ class App(TKMT.ThemedTKinterFrame):
         # ----------------------------Widgets-----------------------------------
 
         self.Label("Generate Documents", col=0, row=0, sticky="nsew")
+
         # ----------------------------Documents Frame-------------------------------------------
         self.documents_frame = self.addLabelFrame(
             "Documents routes"
@@ -137,6 +138,16 @@ class App(TKMT.ThemedTKinterFrame):
         generate_button.grid(
             row=7, column=0, columnspan=4, padx=40, pady=20, sticky="nsew"
         )
+        # -----------------------------credits-----------------------------------
+        credits_label = ttk.Label(
+            self.master,
+            text="Developed by: @isaihernandez (https://github.com/isaidj)",
+            # color
+            foreground="#adadad",
+        )
+        credits_label.grid(
+            row=8, column=0, columnspan=4, padx=10, pady=5, sticky="nsew"
+        )
 
         # -----------------------------//Configuration Frame--------------------------------------------------------
         # -----------------------------Events-------------------------------------------------------
@@ -151,8 +162,9 @@ class App(TKMT.ThemedTKinterFrame):
         file_path = filedialog.askopenfilename(filetypes=[("Excel Files", "*.xlsx")])
         if file_path:
             self.excel_path_var.set(file_path)
+            name_sheet = pd.ExcelFile(file_path).sheet_names[0].strip()
 
-            excel_data = pd.read_excel(file_path, sheet_name="Sheet")
+            excel_data = pd.read_excel(file_path, sheet_name=name_sheet)
             column_names = excel_data.columns.tolist()
 
             if self.column_combobox:
@@ -195,7 +207,8 @@ class App(TKMT.ThemedTKinterFrame):
             return
 
         try:
-            excel_data = pd.read_excel(excel_path, sheet_name="Sheet")
+            name_sheet = pd.ExcelFile(excel_path).sheet_names[0].strip()
+            excel_data = pd.read_excel(excel_path, sheet_name=name_sheet)
         except Exception as e:
             messagebox.showerror("Error", f"Error loading Excel file: {e}")
             return
